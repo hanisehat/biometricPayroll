@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 29 Agu 2018 pada 05.38
+-- Generation Time: 07 Sep 2018 pada 12.46
 -- Versi Server: 10.1.9-MariaDB
 -- PHP Version: 5.6.15
 
@@ -60,13 +60,15 @@ CREATE TABLE `claims` (
 CREATE TABLE `employees` (
   `employee_id` int(11) NOT NULL,
   `employee_name` varchar(51) NOT NULL,
-  `employee_picture` varchar(55) DEFAULT NULL,
+  `employee_username` varchar(75) DEFAULT NULL,
+  `employee_password` varchar(50) DEFAULT NULL,
+  `employee_picture` varchar(95) DEFAULT NULL,
   `employee_position` int(11) NOT NULL,
   `employee_salary` int(11) NOT NULL,
   `employee_address` varchar(90) DEFAULT NULL,
   `employee_idcard` varchar(75) DEFAULT NULL,
   `employee_certificate` varchar(75) DEFAULT NULL,
-  `employee_birth` date DEFAULT NULL,
+  `employee_birth` varchar(15) DEFAULT NULL,
   `employee_phone` int(15) DEFAULT NULL,
   `employee_status` int(1) NOT NULL,
   `employee_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -76,12 +78,37 @@ CREATE TABLE `employees` (
 -- Dumping data untuk tabel `employees`
 --
 
-INSERT INTO `employees` (`employee_id`, `employee_name`, `employee_picture`, `employee_position`, `employee_salary`, `employee_address`, `employee_idcard`, `employee_certificate`, `employee_birth`, `employee_phone`, `employee_status`, `employee_timestamp`) VALUES
-(1, 'John Immanuel Johansson', 'files/employee_picturesf6a7843a2364cad8ca6c8f4bd94ab88e', 1, 213123213, 'bekonang', NULL, NULL, '2018-08-09', 888, 0, '2018-08-27 11:07:44'),
-(2, '', NULL, 1, 0, '', NULL, NULL, NULL, 0, 1, '2018-08-28 04:35:56'),
-(3, '', NULL, 1, 0, '', NULL, NULL, NULL, 0, 1, '2018-08-28 04:48:19'),
-(4, 'John Tyler', 'files/employee_pictures/5c16e14b71f2357cbb6782e594d389d', 1, 232132, 'banaran', NULL, NULL, NULL, 645632, 1, '2018-08-28 06:40:26'),
-(5, 'Andik', 'files/employee_pictures/e6dd20c2d73cc615b6380a9d11dc018', 1, 324324, 'ungaran', NULL, NULL, NULL, 123123, 1, '2018-08-28 07:07:16');
+INSERT INTO `employees` (`employee_id`, `employee_name`, `employee_username`, `employee_password`, `employee_picture`, `employee_position`, `employee_salary`, `employee_address`, `employee_idcard`, `employee_certificate`, `employee_birth`, `employee_phone`, `employee_status`, `employee_timestamp`) VALUES
+(1, 'aaa', NULL, '77bf34b1fa8fa2658bfd77b900e147bd2332afac', 'files/employee_picturesf6a7843a2364cad8ca6c8f4bd94ab88e', 3, 213123213, 'bekonang', NULL, NULL, '2018-08-09', 888, 1, '2018-09-04 08:55:26'),
+(5, 'Andik2', 'andik', NULL, 'files/employee_pictures/5214729ae6d05b2706563b0786228b57.jpg', 3, 11111, 'ungaran2', 'files/employee_pictures/00acc4f9183db8d130dbc0149f7b897f.jpg', 'files/employee_pictures/09e61a66c66ad7890f83be8aae6c4889.jpg', '05/09/1990', 5456564, 1, '2018-09-03 04:23:09'),
+(6, 'Jhony andrean', 'joni', '91010ab2791f95fcd50d52d8b32f5c756438c411', 'files/employee_pictures/3f71408ffccb266281320a62d2ef1d82.jpg', 3, 2312312, 'bubakan', 'files/employee_pictures/c84beca33b06c7938aff3a754de059ed.jpg', 'files/employee_pictures/8ba747c0f614518b9fd9400e2a84d4ad.jpg', '06/18/1990', 990890, 1, '2018-09-05 09:40:55'),
+(7, 'jonen', 'haha', NULL, NULL, 3, 1232, 'dskljfljdsf', NULL, NULL, '09/19/2018', 123213, 1, '2018-09-04 09:07:28');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `leaves`
+--
+
+CREATE TABLE `leaves` (
+  `leave_id` int(11) NOT NULL,
+  `leave_employee` int(11) DEFAULT NULL,
+  `leave_message` tinytext,
+  `leave_reply_message` tinytext NOT NULL,
+  `leave_date_start` varchar(15) DEFAULT NULL,
+  `leave_date_end` varchar(15) DEFAULT NULL,
+  `leave_status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `leaves`
+--
+
+INSERT INTO `leaves` (`leave_id`, `leave_employee`, `leave_message`, `leave_reply_message`, `leave_date_start`, `leave_date_end`, `leave_status`) VALUES
+(1, 1, 'qweqwe', '', '09/09/2018', '09/10/2018', 1),
+(2, 6, 'test', '', '07/09/2018', '08/09/2018', 1),
+(3, 6, ' test', '', '07/09/2018', '08/09/2018', 1),
+(4, 6, ' test', '', '07/09/2018', '08/09/2018', 2);
 
 -- --------------------------------------------------------
 
@@ -91,15 +118,24 @@ INSERT INTO `employees` (`employee_id`, `employee_name`, `employee_picture`, `em
 
 CREATE TABLE `positions` (
   `position_id` int(11) NOT NULL,
-  `position_name` varchar(55) NOT NULL
+  `position_name` varchar(55) NOT NULL,
+  `position_priority` tinyint(1) NOT NULL,
+  `position_status` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `positions`
 --
 
-INSERT INTO `positions` (`position_id`, `position_name`) VALUES
-(1, 'CEO');
+INSERT INTO `positions` (`position_id`, `position_name`, `position_priority`, `position_status`) VALUES
+(3, 'CEO', 1, 1),
+(4, 'HR Manager', 3, 1),
+(5, 'Security', 4, 1),
+(6, 'Developer', 4, 1),
+(7, 'Branch Manager', 2, 1),
+(10, 'Marketing', 4, 1),
+(11, 'Secretary', 3, 1),
+(12, 'Administrator', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -148,6 +184,12 @@ ALTER TABLE `employees`
   ADD PRIMARY KEY (`employee_id`);
 
 --
+-- Indexes for table `leaves`
+--
+ALTER TABLE `leaves`
+  ADD PRIMARY KEY (`leave_id`);
+
+--
 -- Indexes for table `positions`
 --
 ALTER TABLE `positions`
@@ -177,12 +219,17 @@ ALTER TABLE `claims`
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT for table `leaves`
+--
+ALTER TABLE `leaves`
+  MODIFY `leave_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `positions`
 --
 ALTER TABLE `positions`
-  MODIFY `position_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `position_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `users`
 --

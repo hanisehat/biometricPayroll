@@ -8,7 +8,7 @@ class Dashboard extends CI_Controller
 	{
 		parent::__construct();
 		
-		//$this->load->library('Authent');
+		$this->authent->checkLogin();
 		//$this->notifications->checkDraft();
 	}
 

@@ -7,32 +7,26 @@ class Positions extends CI_Controller
 	function __construct() 
 	{
 		parent::__construct();
-		
+
+		$this->load->model('PositionModel');
 		//$this->load->library('Authent');
 		//$this->notifications->checkDraft();
 	}
 
 
 	public function index()
-	{
+	{	
+	//	$this->authent->checkLogin();
+
+		$data['values'] = $this->PositionModel->getAllData();
 		$data['title'] = "Claim List";
 		$data['footer'] = $this->footer();
 		$data['sidebar']= $this->sidebar();
 		$data['header']= $this->header();
-		$data['content'] = $this->load->view('claim-list', $data, true);
+		$data['content'] = $this->load->view('position-list', $data, true);
 		$this->load->view('templates/main', $data);
 	}
 	
-	public function new_claim()
-	{
-		//$data['value'] = $this->UserModel->getDataWhere($id)->row();
-		$data['title'] = "New Claim";
-		$data['footer'] = $this->footer();
-		$data['sidebar']= $this->sidebar();
-		$data['header']= $this->header();
-		$data['content'] = $this->load->view('claim-form', $data, true);
-		$this->load->view('templates/main', $data);
-	}
 
 	public function verify() 
 	{
@@ -58,28 +52,9 @@ class Positions extends CI_Controller
 		}
 	}
 
-	public function register($id='')
-	{
-		if ($id != '') {
-			$data['value'] = $this->UserModel->getDataWhere($id)->row();
-			$data['title'] = "Edit User";
-
-		} else {
-			$data['value'] = '';
-			$data['title'] = "Add New User";
-
-		}
-
-		$data['footer'] = $this->footer();
-		$data['sidebar']= $this->sidebar();
-		$data['header']= $this->header();
-		$data['content'] = $this->load->view('user-form', $data, true);
-		$this->load->view('templates/main', $data);
-	}
-
 	public function delete($id)
 	{
-		$del = $this->UserModel->deleteData($id);
+		$del = $this->PositionModel->deleteData($id);
 		if( $del ) {
 			$this->session->set_flashdata('success', 'Data user berhasil dihapus');
 		} else {
@@ -143,29 +118,25 @@ class Positions extends CI_Controller
 	
 		$id = $this->input->post('id');
 
-		$res = $this->UserModel->isUsernameTaken($this->input->post('username'));
-		if ($res == NULL) {
+		// $res = $this->PositionModel->isPositionTaken($this->input->post('position_name'));
+		// if ($res == NULL) {
+		$data['position_name'] = $this->input->post('position_name');
+
+		if(is_numeric($id))	 {
 			
-			$data = array(
-					'name' => $this->input->post('name'),
-					'email' => $this->input->post('email'),
-					'password' => sha1($this->input->post('password')),
-					'username' => $this->input->post('username'),
-					'role' => $this->input->post('role'),
-					'status' => $this->input->post('status'),
-				);
+			$runQuery = $this->PositionModel->updateData($data, $id);
 
-					$runQuery = $this->UserModel->insertData($data);
-
-					if($runQuery){
-						$this->session->set_flashdata('success', 'User berhasil ditambahkan');
-					} else {
-						$this->session->set_flashdata('fail', 'Kesalahan penyimpanan terjadi.');
-					}
+					// if($runQuery){
+					// 	$this->session->set_flashdata('success', 'Position has been added');
+					// } else {
+					// 	$this->session->set_flashdata('fail', 'Kesalahan penyimpanan terjadi.');
+					// }
 		} else {
-		 	$this->session->set_flashdata('usernameTaken', 'Username already taken!');
-			redirect('/users/register/');
+		 	$runQuery = $this->PositionModel->insertData($data);
+			
 		}
+
+		redirect('/positions/');
 
 	}
 
@@ -205,34 +176,6 @@ class Positions extends CI_Controller
 
 	   //  var_dump(json_encode($root));
     	return print json_encode($root);
-	}
-
-	public function getRole()
-	{
-		$result = array();
-	    $query = $this->RoleModel->getAllData()->result_array();
-		$i = 1;
-
-		foreach ($query as $row) {
-		    $result[] = array(
-	     					"no" => $i++,
-	     					"recid" => $row['role_id'],
-	     					"name" => $row['name'],
-	     					"display_name" => $row['display_name'],
-	     					"access_lvl" => $row['access_lvl'],
-	     					"object_lvl" => $row['object_lvl'],
-	     				);
-		}
-	     $root['records'] = $result;
-
-	   //  var_dump(json_encode($root));
-    	return print json_encode($root);
-	}
-
-	public function getDataEdit($id) 
-	{
-		$query = $this->UserModel->getDataWhere($id)->row();
-		return print json_encode($query);
 	}
 
 	public function sidebar()

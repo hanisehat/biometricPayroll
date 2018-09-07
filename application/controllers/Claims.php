@@ -8,7 +8,8 @@ class Claims extends CI_Controller
 	{
 		parent::__construct();
 		
-		//$this->load->library('Authent');
+		$this->authent->checkLogin();
+		$this->load->model('ClaimModel');
 		//$this->notifications->checkDraft();
 	}
 

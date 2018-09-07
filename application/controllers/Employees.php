@@ -7,7 +7,7 @@ class Employees extends CI_Controller
 	function __construct() 
 	{
 		parent::__construct();
-		
+				
 		$this->load->model('EmployeeModel');
 		$this->load->model('PositionModel');
 		//$this->load->library('Authent');
@@ -17,8 +17,11 @@ class Employees extends CI_Controller
 
 	public function index()
 	{
+		$this->authent->checkLogin();
+
 		$data['title'] = "Employee List";
-		$data['joined_values'] = $this->EmployeeModel->getAllData()->result();
+		$data['joined_values'] = $this->EmployeeModel->getAllData();
+		$data['positions'] = $this->PositionModel->getAllData();
 		$data['footer'] = $this->footer();
 		$data['sidebar']= $this->sidebar();
 		$data['header']= $this->header();
@@ -28,6 +31,8 @@ class Employees extends CI_Controller
 
 	public function profile($id)
 	{
+		$this->authent->checkLogin();
+
 		$data['value'] = $this->EmployeeModel->getDataWhere($id)->row();
 		$data['title'] = "Employee Profile";
 		$data['footer'] = $this->footer();
@@ -39,30 +44,30 @@ class Employees extends CI_Controller
 
 	public function verify() 
 	{
-		$res = $this->UserModel->verifyLogin($this->input->post('username'), $this->input->post('password'));
+		$res = $this->EmployeeModel->verifyLogin($this->input->post('username'), $this->input->post('password'));
 		if ($res !== NULL ) {
 			
 			$_SESSION['username'] = $this->input->post('username');
-			$_SESSION['role'] = $res->role;
-			$_SESSION['user_id'] = $res->user_id;
-			if($res->role < 2 )
-			{
-				$_SESSION['avatar'] = "<img src='".base_url()."assets/images/boss.png' alt='Profile Image' />";
-
-			} else {
-				$_SESSION['avatar'] = "<img src='".base_url()."assets/images/admin.png' alt='Profile Image' />";
-			}
+			$_SESSION['name'] = $res->employee_name;
+			$_SESSION['position'] = $res->position_name;
+			$_SESSION['priority'] = $res->position_priority;
+			$_SESSION['user_id'] = $res->employee_id;
 			
 			redirect('/');
 		}
 		 else {
+		 	session_start();
 		 	$this->session->set_flashdata('fail', 'Wrong username / password !');
 			redirect('/users/login/');
 		}
 	}
 
-	public function new_employee($id='')
+	public function employee_form($id='')
 	{
+		$this->authent->checkLogin();
+
+
+		// echo "string";
 		if ($id != '') {
 			$data['value'] = $this->EmployeeModel->getDataWhere($id)->row();
 			$data['title'] = "Edit Employee";
@@ -73,7 +78,7 @@ class Employees extends CI_Controller
 
 		}
 		
-		$data['positions'] = $this->PositionModel->getAllData()->result();
+		$data['positions'] = $this->PositionModel->getAllData();
 		$data['footer'] = $this->footer();
 		$data['sidebar']= $this->sidebar();
 		$data['header']= $this->header();
@@ -90,8 +95,30 @@ class Employees extends CI_Controller
 			$this->session->set_flashdata('fail', 'Kesalahan penghapusan data terjadi.');
 		}
 
-		redirect('/users');
+		redirect('/employees');
+	}
 
+	public function activation($status, $id)
+	{	
+		$data['employee_status'] = $status;
+		$activation = $this->EmployeeModel->updateData($data, $id);
+		if( $activation ) {
+			$this->session->set_flashdata('success', 'Data user berhasil dihapus');
+		} else {
+			$this->session->set_flashdata('fail', 'Kesalahan penghapusan data terjadi.');
+		}
+
+		redirect('/employees');
+	}
+	
+	public function update_password()
+	{	
+		$data['employee_password'] = sha1($this->input->post('password'));
+		$id = $this->input->post('id');
+		
+		$command = $this->EmployeeModel->updateData($data, $id);
+
+		redirect('/employees/employee_form/'.$id);
 	}
 
 	public function update_employee($id='')
@@ -110,11 +137,15 @@ class Employees extends CI_Controller
 		$emp_certificate = $_FILES["emp_certificate"]["name"];
 
 		$data['employee_name'] = $this->input->post('emp_name');
+		$data['employee_username'] = $this->input->post('emp_username');
 		$data['employee_position'] = $this->input->post('emp_position');
 		$data['employee_salary'] = $this->input->post('emp_salary');
 		$data['employee_status'] = $this->input->post('emp_status');
 		$data['employee_phone'] = $this->input->post('emp_phone');
 		$data['employee_address'] = $this->input->post('emp_address');
+		$data['employee_birth'] = $this->input->post('birth_date');
+		
+		//if($this->)
 
 		if( is_numeric($id) ) {
 			
@@ -131,7 +162,7 @@ class Employees extends CI_Controller
     			$data['employee_idcard'] = 'files/employee_pictures/'.$this->upload->file_name;
 			}
 			if (!empty($emp_certificate)) {
-				$this->upload->do_upload('emp_cwertificate');
+				$this->upload->do_upload('emp_certificate');
     			$image_upload = $this->upload->data();
 
     			$data['employee_certificate'] = 'files/employee_pictures/'.$this->upload->file_name;
@@ -168,7 +199,7 @@ class Employees extends CI_Controller
 			//echo json_encode($message);
 			redirect('/employees');
 		} else {
-			redirect('/employees/new_employee/'.$id);
+			redirect('/employees/employee_form/'.$id);
 		}
 
 	}

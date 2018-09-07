@@ -6,7 +6,7 @@ class PositionModel extends CI_Model
 	public function getAllData()
 	{
 		$allData = $this->db->get('positions');
-		return $allData;
+		return $allData->result();
 	}
 
 	public function insertData($data)
@@ -17,14 +17,14 @@ class PositionModel extends CI_Model
 
 	public function updateData($data, $id)
 	{
-    	$this->db->where('user_id', $id);
+    	$this->db->where('position_id', $id);
 		$insert = $this->db->update('positions', $data);
 		return $insert;
 	}
 
 	public function deleteData($id)
 	{
-		$delete = $this->db->delete('positions', array('user_id' => $id));
+		$delete = $this->db->delete('positions', array('position_id' => $id));
 		return $delete;
 	}
 
@@ -32,7 +32,7 @@ class PositionModel extends CI_Model
 	{
 		$this->db->select('*');
 		$this->db->from('positions');
-		$this->db->where('user_id !=', $id);
+		$this->db->where('position_id !=', $id);
 		$this->db->where('username', $username);
 		$check =$this->db->get();
 		return $check;
@@ -40,13 +40,13 @@ class PositionModel extends CI_Model
 
 	public function getDataWhere($id)
 	{
-		$value = $this->db->get_where('positions', array('user_id' => $id));
+		$value = $this->db->get_where('positions', array('position_id' => $id));
 		return $value;
 	}
 
-	public function isUsernameTaken($username)
+	public function isPositionTaken($position_name)
 	{
-		$query = $this->db->where('username', $username)->limit(1)->get('positions');
+		$query = $this->db->where('position_name', $position_name)->limit(1)->get('positions');
 		
 		if ( $query != NULL ) {
 			return $query->row();

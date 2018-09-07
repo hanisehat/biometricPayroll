@@ -8,6 +8,12 @@
 
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url('claims'); ?>" aria-expanded="false"><i class=" fas fa-hand-holding-usd"></i><span class="hide-menu">Claims</span></a></li>
 
+                <?php // if ($this->session->priority < 4) { ?> 
+                
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url('leaves'); ?>" aria-expanded="false"><i class="mdi mdi-beach"></i><span class="hide-menu">Leaves</span></a></li>
+
+                <?php // } ?>
+
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url('employees'); ?>" aria-expanded="false"><i class="mdi mdi-account-multiple"></i><span class="hide-menu">Employees</span></a></li>
 
                 <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-database"></i><span class="hide-menu">Data Manage </span></a>

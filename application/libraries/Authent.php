@@ -4,7 +4,7 @@ class Authent {
 
   function checkLogin()
   {
-  	session_start();
+  	//session_start();
     if( NULL == $_SESSION['username']) {
 			redirect('/users/login');
 	}

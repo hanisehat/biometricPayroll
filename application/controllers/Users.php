@@ -7,7 +7,8 @@ class Users extends CI_Controller
 	function __construct() 
 	{
 		parent::__construct();
-		
+
+		$this->load->model('UserModel');
 		//$this->load->library('Authent');
 		//$this->notifications->checkDraft();
 	}
@@ -15,6 +16,8 @@ class Users extends CI_Controller
 
 	public function index()
 	{
+		$this->authent->checkLogin();
+
 		$data['title'] = "User List";
 		$data['footer'] = $this->footer();
 		$data['sidebar']= $this->sidebar();
@@ -30,7 +33,7 @@ class Users extends CI_Controller
 		}
 
 		$data['title'] = "Login";
-		$this->load->view('user-login', $data);
+		$this->load->view('login', $data);
 	}
 
 	public function logout()
@@ -41,6 +44,8 @@ class Users extends CI_Controller
 
 	public function profile($id)
 	{
+		$this->authent->checkLogin();
+
 		$data['value'] = $this->UserModel->getDataWhere($id)->row();
 		$data['title'] = "Profile";
 		$data['footer'] = $this->footer();
@@ -52,19 +57,13 @@ class Users extends CI_Controller
 
 	public function verify() 
 	{
+		//var_dump($_POST); die();
 		$res = $this->UserModel->verifyLogin($this->input->post('username'), $this->input->post('password'));
 		if ($res !== NULL ) {
 			
 			$_SESSION['username'] = $this->input->post('username');
 			$_SESSION['role'] = $res->role;
 			$_SESSION['user_id'] = $res->user_id;
-			if($res->role < 2 )
-			{
-				$_SESSION['avatar'] = "<img src='".base_url()."assets/images/boss.png' alt='Profile Image' />";
-
-			} else {
-				$_SESSION['avatar'] = "<img src='".base_url()."assets/images/admin.png' alt='Profile Image' />";
-			}
 			
 			redirect('/');
 		}
@@ -76,6 +75,8 @@ class Users extends CI_Controller
 
 	public function new_user($id='')
 	{
+		$this->authent->checkLogin();
+		
 		if ($id != '') {
 			$data['value'] = $this->UserModel->getDataWhere($id)->row();
 			$data['title'] = "Edit User";

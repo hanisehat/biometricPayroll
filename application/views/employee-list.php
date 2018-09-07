@@ -10,7 +10,7 @@
             <div class="ml-auto text-right">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                       <li class="breadcrumb-item"><a href="<?php echo base_url('employees/new_employee'); ?>" type="button" class="btn btn-success">Add New Employee</button></a></li>
+                       <li class="breadcrumb-item"><a href="<?php echo base_url('employees/employee_form'); ?>" type="button" class="btn btn-success">Add New Employee</button></a></li>
                     </ol>
                 </nav>
             </div>
@@ -61,7 +61,22 @@
                                                             ?>
                                     </span></td>
 
-                                    <td><span class="salary"><a href="<?php echo base_url('/employees/new_employee/').$value->employee_id; ?>"><button type="button" class="btn btn-warning">Edit</button></a></span></td>
+                                    <td><span class="salary"><a href="<?php echo base_url('/employees/employee_form/').$value->employee_id; ?>">
+
+                                        <button type="button" class="btn btn-warning">Edit</button></a></span>
+
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-danger">Delete</button>
+                                            <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <div class="dropdown-menu" x-placement="top-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(70px, -204px, 0px);">
+                                                <a class="dropdown-item" href="#"  onclick="deactivate('<?php echo $value->employee_id; ?>')">Deactivate</a>
+                                                <a class="dropdown-item" href="#" class="delete" onclick="remover('<?php echo $value->employee_id; ?>')">Permanently Delete</a>
+                                            </div>
+                                        </div>
+
+                                    </td>
                                 </tr>
 
                             <?php $i++; } ?>
@@ -89,4 +104,42 @@
      ****************************************/
     $('#zero_config').DataTable();
     $('.salary').currency({ region: "IDR", decimals: 0, thousands: "." }); 
+
+
+    function deactivate(id) {
+        if (confirm("Are you sure?")) {
+            
+            $.post( "<?php echo base_url();?>employees/activation/0/"+id).done(function( data ) {
+                window.location.reload();
+            });
+
+        }
+        return false;
+
+    }
+
+    function activate(id) {
+        if (confirm("Are you sure?")) {
+            
+            $.post( "<?php echo base_url();?>employees/activation/"+id).done(function( data ) {
+                window.location.reload();
+            });
+
+        }
+        return false;
+
+    }
+
+    function remover(id) {
+        if (confirm("Are you sure?")) {
+            
+            $.post( "<?php echo base_url();?>employees/delete/"+id).done(function( data ) {
+                window.location.reload();
+            });
+
+        }
+        return false;
+
+    }
+
 </script>

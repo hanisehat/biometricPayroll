@@ -5,12 +5,13 @@ class EmployeeModel extends CI_Model
 {
 	public function getAllData()
 	{
+		//if position doesn't exist, data won't show
 		$this->db->select('*');
-		$this->db->from('employees e');
-		$this->db->join('positions p', 'e.employee_position = p.position_id');
+		$this->db->from('employees');
+		$this->db->join('positions', 'employees.employee_position = positions.position_id');
+		$query = $this->db->get();
 
-		$allData = $this->db->get();
-		return $allData;
+		return $query->result();
 	}
 
 	public function insertData($data)
@@ -58,8 +59,10 @@ class EmployeeModel extends CI_Model
 	}
 
 	public function verifyLogin($username, $password) 
-	{
-		$query = $this->db->where('username', $username)->where('password', sha1($password))->where('status', '1')->limit(1)->get('employees');
+	{	
+		$this->db->from('employees');
+		$this->db->join('positions', 'employees.employee_position = positions.position_id');
+		$query = $this->db->where('employee_username', $username)->where('employee_password', sha1($password))->where('employee_status', '1')->limit(1)->get();
 		$numrows = $query->num_rows();
 		if ( $numrows > 0 ) {
 			return $query->row();
