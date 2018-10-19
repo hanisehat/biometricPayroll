@@ -71,7 +71,14 @@
                                                 <span class="sr-only">Toggle Dropdown</span>
                                             </button>
                                             <div class="dropdown-menu" x-placement="top-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(70px, -204px, 0px);">
-                                                <a class="dropdown-item" href="#"  onclick="deactivate('<?php echo $value->employee_id; ?>')">Deactivate</a>
+                                                <?php echo
+													if($value->employee_status == "0") {
+														 <a class="dropdown-item" onclick="activate('<?php echo $value->employee_id; ?>')">Activate</a>
+													} 
+													else {
+														<a class="dropdown-item" onclick="deactivate('<?php echo $value->employee_id; ?>')">Deactivate</a>
+													}
+												?>
                                                 <a class="dropdown-item" href="#" class="delete" onclick="remover('<?php echo $value->employee_id; ?>')">Permanently Delete</a>
                                             </div>
                                         </div>
@@ -121,7 +128,7 @@
     function activate(id) {
         if (confirm("Are you sure?")) {
             
-            $.post( "<?php echo base_url();?>employees/activation/"+id).done(function( data ) {
+            $.post( "<?php echo base_url();?>employees/activation/1/"+id).done(function( data ) {
                 window.location.reload();
             });
 

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 07 Sep 2018 pada 12.46
+-- Generation Time: 19 Okt 2018 pada 04.40
 -- Versi Server: 10.1.9-MariaDB
 -- PHP Version: 5.6.15
 
@@ -19,6 +19,25 @@ SET time_zone = "+00:00";
 --
 -- Database: `biometric_payroll_db`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `allowances`
+--
+
+CREATE TABLE `allowances` (
+  `allowance_id` int(11) NOT NULL,
+  `allowance_name` varchar(75) NOT NULL,
+  `allowance_status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `allowances`
+--
+
+INSERT INTO `allowances` (`allowance_id`, `allowance_name`, `allowance_status`) VALUES
+(3, 'Holiday Allowances', 0);
 
 -- --------------------------------------------------------
 
@@ -79,7 +98,7 @@ CREATE TABLE `employees` (
 --
 
 INSERT INTO `employees` (`employee_id`, `employee_name`, `employee_username`, `employee_password`, `employee_picture`, `employee_position`, `employee_salary`, `employee_address`, `employee_idcard`, `employee_certificate`, `employee_birth`, `employee_phone`, `employee_status`, `employee_timestamp`) VALUES
-(1, 'aaa', NULL, '77bf34b1fa8fa2658bfd77b900e147bd2332afac', 'files/employee_picturesf6a7843a2364cad8ca6c8f4bd94ab88e', 3, 213123213, 'bekonang', NULL, NULL, '2018-08-09', 888, 1, '2018-09-04 08:55:26'),
+(1, 'aaa', '', '77bf34b1fa8fa2658bfd77b900e147bd2332afac', 'files/employee_pictures/3c104bb7209a8b3464d59b5908b427bc.jpg', 3, 213123213, 'bekonang', 'files/employee_pictures/1b33af94073491883434d76a812b654a.jpg', NULL, '2018-08-09', 888, 1, '2018-10-19 02:38:32'),
 (5, 'Andik2', 'andik', NULL, 'files/employee_pictures/5214729ae6d05b2706563b0786228b57.jpg', 3, 11111, 'ungaran2', 'files/employee_pictures/00acc4f9183db8d130dbc0149f7b897f.jpg', 'files/employee_pictures/09e61a66c66ad7890f83be8aae6c4889.jpg', '05/09/1990', 5456564, 1, '2018-09-03 04:23:09'),
 (6, 'Jhony andrean', 'joni', '91010ab2791f95fcd50d52d8b32f5c756438c411', 'files/employee_pictures/3f71408ffccb266281320a62d2ef1d82.jpg', 3, 2312312, 'bubakan', 'files/employee_pictures/c84beca33b06c7938aff3a754de059ed.jpg', 'files/employee_pictures/8ba747c0f614518b9fd9400e2a84d4ad.jpg', '06/18/1990', 990890, 1, '2018-09-05 09:40:55'),
 (7, 'jonen', 'haha', NULL, NULL, 3, 1232, 'dskljfljdsf', NULL, NULL, '09/19/2018', 123213, 1, '2018-09-04 09:07:28');
@@ -108,7 +127,7 @@ INSERT INTO `leaves` (`leave_id`, `leave_employee`, `leave_message`, `leave_repl
 (1, 1, 'qweqwe', '', '09/09/2018', '09/10/2018', 1),
 (2, 6, 'test', '', '07/09/2018', '08/09/2018', 1),
 (3, 6, ' test', '', '07/09/2018', '08/09/2018', 1),
-(4, 6, ' test', '', '07/09/2018', '08/09/2018', 2);
+(4, 6, ' test', 'bad', '07/09/2018', '08/09/2018', 0);
 
 -- --------------------------------------------------------
 
@@ -133,7 +152,7 @@ INSERT INTO `positions` (`position_id`, `position_name`, `position_priority`, `p
 (5, 'Security', 4, 1),
 (6, 'Developer', 4, 1),
 (7, 'Branch Manager', 2, 1),
-(10, 'Marketing', 4, 1),
+(10, 'Sales', 4, 1),
 (11, 'Secretary', 3, 1),
 (12, 'Administrator', 3, 1);
 
@@ -164,6 +183,12 @@ INSERT INTO `users` (`user_id`, `username`, `name`, `email`, `password`, `role`,
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `allowances`
+--
+ALTER TABLE `allowances`
+  ADD PRIMARY KEY (`allowance_id`);
 
 --
 -- Indexes for table `attendances`
@@ -205,6 +230,11 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for dumped tables
 --
 
+--
+-- AUTO_INCREMENT for table `allowances`
+--
+ALTER TABLE `allowances`
+  MODIFY `allowance_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `attendances`
 --

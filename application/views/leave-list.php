@@ -140,7 +140,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <span class="reject_button"></span>
-                <span class="approve_button"></span>
+                <button type='button' class='btn btn-success approve_button' value="" onclick="setApproved(this.value)">Approve</button>
                 
             </div>
              </form>
@@ -168,7 +168,7 @@
                         </div>
                     </div>
 
-                    <input type="hidden" id="id_leave" name="id" value="">
+                    <input type="hidden" id="reject_id_leave" name="id" value="">
                     <input type="hidden" id="leave_status" name="leave_status" value=0>
                
             </div>
@@ -202,15 +202,19 @@
             $('#detail_leave_reason').val(leaveData.leave_message);
             
             //reject
-            $('#id_leave').val(leaveData.leave_id);
+            $('#reject_id_leave').val(leaveData.leave_id);
+
+            //reject
+            $('.approve_button').val(leaveData.leave_id);
 
             var rejectButton = "<button type='button' class='btn btn-danger'  data-dismiss='modal' data-toggle='modal' data-target='#RejectionReason'>Reject</button>";
-            var approveButton = "<button type='button' class='btn btn-success'>Approve</button>";
+            var approveButton = "";
             
             if(leaveData.leave_status != 0)  {
                 $('.reject_button').html(rejectButton);
+                $('.approve_button').hide();
             } else {
-                $('.approve_button').html(approveButton);
+                $('.approve_button').show();
             }
           //  console.log(leaveData);
 

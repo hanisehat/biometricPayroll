@@ -63,7 +63,7 @@ class Leaves extends CI_Controller
 		$data['leave_reply_message'] = $this->input->post('rejection_reason');
 		$data['leave_status'] = $this->input->post('leave_status');
 		$id = $this->input->post('id');
-		//var_dump($data); die();
+		//var_dump($id); die();
 		$query = $this->LeaveModel->updateData($data, $id);
 
 		if($query) {
