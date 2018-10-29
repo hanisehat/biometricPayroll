@@ -136,6 +136,7 @@ class Employees extends CI_Controller
 		$emp_idcard = $_FILES["emp_idcard"]["name"];
 		$emp_certificate = $_FILES["emp_certificate"]["name"];
 
+		$data['employee_id'] = $this->input->post('emp_id');
 		$data['employee_name'] = $this->input->post('emp_name');
 		$data['employee_username'] = $this->input->post('emp_username');
 		$data['employee_position'] = $this->input->post('emp_position');
@@ -329,3 +330,4 @@ class Employees extends CI_Controller
 		return $this->load->view('templates/footer', $data, true);
 	}
 }
+?>

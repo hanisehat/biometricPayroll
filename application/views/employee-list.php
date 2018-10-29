@@ -57,7 +57,8 @@
                                     <td><?php echo $value->employee_birth; ?></td>
                                     <td><span class="salary"><?php echo $value->employee_salary; ?></span></td>
                                     <td><span class="salary"><?php 
-                                                                    if($value->employee_status == '1') echo "<span style='color: green;'> Active </span>"; else {echo "<span style='color: red;'> Not Active </span>"; }
+																if($value->employee_status == '1') echo "<span style='color: green;'> Active </span>"; 
+																else {echo "<span style='color: red;'> Not Active </span>"; }
                                                             ?>
                                     </span></td>
 
@@ -71,12 +72,12 @@
                                                 <span class="sr-only">Toggle Dropdown</span>
                                             </button>
                                             <div class="dropdown-menu" x-placement="top-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(70px, -204px, 0px);">
-                                                <?php echo
+                                                <?php
 													if($value->employee_status == "0") {
-														 <a class="dropdown-item" onclick="activate('<?php echo $value->employee_id; ?>')">Activate</a>
+														echo '<a href="#" class="dropdown-item activate_emp">Active</a>';
 													} 
-													else {
-														<a class="dropdown-item" onclick="deactivate('<?php echo $value->employee_id; ?>')">Deactivate</a>
+													else{
+														echo '<a href="#" class="dropdown-item deactivate_emp">Deactive</a>';
 													}
 												?>
                                                 <a class="dropdown-item" href="#" class="delete" onclick="remover('<?php echo $value->employee_id; ?>')">Permanently Delete</a>
@@ -113,10 +114,34 @@
     $('.salary').currency({ region: "IDR", decimals: 0, thousands: "." }); 
 
 
-    function deactivate(id) {
+   
+	
+	$(".activate_emp").click(function(id){
         if (confirm("Are you sure?")) {
             
-            $.post( "<?php echo base_url();?>employees/activation/0/"+id).done(function( data ) {
+            $.post( "<?php echo base_url();?>employees/activation/1/"+"<?php echo $value->employee_id; ?>" ).done(function( data ) {
+                window.location.reload();
+            });
+
+        }
+        return false;
+	});
+	
+	$(".deactivate_emp").click(function(id){
+        if (confirm("Are you sure?")) {
+            
+            $.post( "<?php echo base_url();?>employees/activation/0/"+"<?php echo $value->employee_id; ?>" ).done(function( data ) {
+                window.location.reload();
+            });
+
+        }
+        return false;
+	});
+
+    function activate(id) {
+        if (confirm("Are you sure?")) {
+            
+            $.post( "<?php echo base_url();?>employees/activation/1/"+id).done(function( data ) {
                 window.location.reload();
             });
 
@@ -124,11 +149,12 @@
         return false;
 
     }
-
-    function activate(id) {
+	
+	
+ function deactivate(id) {
         if (confirm("Are you sure?")) {
             
-            $.post( "<?php echo base_url();?>employees/activation/1/"+id).done(function( data ) {
+            $.post( "<?php echo base_url();?>employees/activation/0/"+id).done(function( data ) {
                 window.location.reload();
             });
 
