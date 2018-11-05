@@ -72,14 +72,15 @@
                                                 <span class="sr-only">Toggle Dropdown</span>
                                             </button>
                                             <div class="dropdown-menu" x-placement="top-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(70px, -204px, 0px);">
-                                                <?php
-													if($value->employee_status == "0") {
-														echo '<a href="#" class="dropdown-item activate_emp">Active</a>';
-													} 
-													else{
-														echo '<a href="#" class="dropdown-item deactivate_emp">Deactive</a>';
-													}
-												?>
+                                            <?php 
+												if($value->employee_status == "0"){ ?>
+												<a class="dropdown-item" href="#" onclick="activate('<?php echo $value->employee_id; ?>')">Active</a>
+											<?php } ?>
+											<?php 
+												if($value->employee_status == "1"){ ?>
+												<a class="dropdown-item" href="#" onclick="deactivate('<?php echo $value->employee_id; ?>')">Deactive</a>
+											<?php } ?>
+												
                                                 <a class="dropdown-item" href="#" class="delete" onclick="remover('<?php echo $value->employee_id; ?>')">Permanently Delete</a>
                                             </div>
                                         </div>
@@ -116,27 +117,27 @@
 
    
 	
-	$(".activate_emp").click(function(id){
-        if (confirm("Are you sure?")) {
+	// $(".activate_emp").click(function(id){
+ //        if (confirm("Are you sure?")) {
             
-            $.post( "<?php echo base_url();?>employees/activation/1/"+"<?php echo $value->employee_id; ?>" ).done(function( data ) {
-                window.location.reload();
-            });
+ //            $.post( "<?php echo base_url();?>employees/activation/1/"+id).done(function( data ) {
+ //                window.location.reload();
+ //            });
 
-        }
-        return false;
-	});
+ //        }
+ //        return false;
+	// });
 	
-	$(".deactivate_emp").click(function(id){
-        if (confirm("Are you sure?")) {
+	// $(".deactivate_emp").click(function(id){
+ //        if (confirm("Are you sure?")) {
             
-            $.post( "<?php echo base_url();?>employees/activation/0/"+"<?php echo $value->employee_id; ?>" ).done(function( data ) {
-                window.location.reload();
-            });
+ //            $.post( "<?php echo base_url();?>employees/activation/0/"+id).done(function( data ) {
+ //                window.location.reload();
+ //            });
 
-        }
-        return false;
-	});
+ //        }
+ //        return false;
+	// });
 
     function activate(id) {
         if (confirm("Are you sure?")) {

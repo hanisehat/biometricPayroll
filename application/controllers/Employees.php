@@ -103,9 +103,9 @@ class Employees extends CI_Controller
 		$data['employee_status'] = $status;
 		$activation = $this->EmployeeModel->updateData($data, $id);
 		if( $activation ) {
-			$this->session->set_flashdata('success', 'Data user berhasil dihapus');
+			$this->session->set_flashdata('success', 'Data user berhasil diupdate');
 		} else {
-			$this->session->set_flashdata('fail', 'Kesalahan penghapusan data terjadi.');
+			$this->session->set_flashdata('fail', 'Kesalahan penyimpanan terjadi.');
 		}
 
 		redirect('/employees');
@@ -130,13 +130,12 @@ class Employees extends CI_Controller
 
         $this->load->library('upload', $config);
     
-		$id = $this->input->post('id');
+		$id = $this->input->post('employee_id');
 
 		$emp_picture = $_FILES["emp_picture"]["name"];
 		$emp_idcard = $_FILES["emp_idcard"]["name"];
 		$emp_certificate = $_FILES["emp_certificate"]["name"];
 
-		$data['employee_id'] = $this->input->post('emp_id');
 		$data['employee_name'] = $this->input->post('emp_name');
 		$data['employee_username'] = $this->input->post('emp_username');
 		$data['employee_position'] = $this->input->post('emp_position');
