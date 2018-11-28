@@ -19,6 +19,14 @@
                 <?php // } ?>
 
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url('employees'); ?>" aria-expanded="false"><i class="mdi mdi-account-multiple"></i><span class="hide-menu">Employees</span></a></li>
+				
+				<li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url('attendances'); ?>" aria-expanded="false"><i class="fa fa-calendar-alt"></i><span class="hide-menu">Attendance</span></a></li>
+				
+				<li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url('salaries'); ?>" aria-expanded="false"><i class='fas fa-donate'></i><span class="hide-menu">Salary</span></a></li>
+				
+				<li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url('bonuses'); ?>" aria-expanded="false"><i class="fa fa-plus"></i><span class="hide-menu">Bonus</span></a></li>
+				
+				<li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url('reports'); ?>" aria-expanded="false"><i class="fa fa-print"></i><span class="hide-menu">Report</span></a></li>
 
                 <li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-database"></i><span class="hide-menu">Data Manage </span></a>
                     <ul aria-expanded="false" class="collapse  first-level">

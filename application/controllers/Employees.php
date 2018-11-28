@@ -85,6 +85,18 @@ class Employees extends CI_Controller
 		$data['content'] = $this->load->view('employee-form', $data, true);
 		$this->load->view('templates/main', $data);
 	}
+	
+	public function employee_detail($id=''){
+		$data['value'] = $this->EmployeeModel->getDataWhere($id)->row();
+		$data['title'] = "Detail Employee";
+		
+		$data['positions'] = $this->PositionModel->getAllData();
+		$data['footer'] = $this->footer();
+		$data['sidebar']= $this->sidebar();
+		$data['header']= $this->header();
+		$data['content'] = $this->load->view('employee-detail', $data, true);
+		$this->load->view('templates/main', $data);
+	}
 
 	public function delete($id)
 	{
@@ -98,6 +110,7 @@ class Employees extends CI_Controller
 		redirect('/employees');
 	}
 
+	
 	public function activation($status, $id)
 	{	
 		$data['employee_status'] = $status;
@@ -130,7 +143,7 @@ class Employees extends CI_Controller
 
         $this->load->library('upload', $config);
     
-		$id = $this->input->post('employee_id');
+		$id = $this->input->post('id');
 
 		$emp_picture = $_FILES["emp_picture"]["name"];
 		$emp_idcard = $_FILES["emp_idcard"]["name"];
@@ -144,6 +157,7 @@ class Employees extends CI_Controller
 		$data['employee_phone'] = $this->input->post('emp_phone');
 		$data['employee_address'] = $this->input->post('emp_address');
 		$data['employee_birth'] = $this->input->post('birth_date');
+		$data['employee_start'] = $this->input->post('start_date');
 		
 		//if($this->)
 
@@ -199,10 +213,11 @@ class Employees extends CI_Controller
 			//echo json_encode($message);
 			redirect('/employees');
 		} else {
-			redirect('/employees/employee_form/'.$id);
+			redirect('/employees');
 		}
 
 	}
+	
 
 	public function view($id)
 	{

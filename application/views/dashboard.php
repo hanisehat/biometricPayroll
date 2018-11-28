@@ -31,8 +31,9 @@
         <div class="col-md-6 col-lg-3">
             <div class="card card-hover">
                 <div class="box bg-cyan text-center">
-                    <h1 class="font-light text-white"><i class="mdi mdi-account-multiple"></i></h1>
-                    <h6 class="text-white">Employees</h6>
+                    <a href="<?php echo base_url('employees'); ?>">
+					<h1 class="font-light text-white"><i class="mdi mdi-account-multiple"></i></h1>
+                    <h6 class="text-white">Employees</h6></a>
                 </div>
             </div>
         </div>

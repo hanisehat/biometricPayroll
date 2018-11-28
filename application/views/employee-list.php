@@ -54,7 +54,7 @@
                                     <td><?php echo $value->employee_name; ?></td>
                                     <td><?php echo $value->position_name; ?></td>
                                     <td><?php echo date("F j, Y", strtotime($value->employee_birth)); ?></td>
-                                    <td><?php echo $value->employee_birth; ?></td>
+                                    <td><?php echo date("F j, Y", strtotime($value->employee_start)); ?></td>
                                     <td><span class="salary"><?php echo $value->employee_salary; ?></span></td>
                                     <td><span class="salary"><?php 
 																if($value->employee_status == '1') echo "<span style='color: green;'> Active </span>"; 
@@ -63,9 +63,7 @@
                                     </span></td>
 
                                     <td><span class="salary"><a href="<?php echo base_url('/employees/employee_form/').$value->employee_id; ?>">
-
                                         <button type="button" class="btn btn-warning">Edit</button></a></span>
-
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-danger">Delete</button>
                                             <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

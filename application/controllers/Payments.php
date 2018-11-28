@@ -1,44 +1,36 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Allowances extends CI_Controller
+class Payments extends CI_Controller
 {
 
 	function __construct() 
 	{
 		parent::__construct();
-		
-		$this->authent->checkLogin();
-		$this->load->model('AllowanceModel');
+
+		$this->load->model('PaymentModel');
+		//$this->load->library('Authent');
 		//$this->notifications->checkDraft();
 	}
 
 
 	public function index()
-	{
-		$data['title'] = "Allowance List";
-		$data['values'] = $this->AllowanceModel->getAllData();
+	{	
+	//	$this->authent->checkLogin();
+
+		$data['values'] = $this->PaymentModel->getAllData();
+		$data['title'] = "Payment List";
 		$data['footer'] = $this->footer();
 		$data['sidebar']= $this->sidebar();
 		$data['header']= $this->header();
-		$data['content'] = $this->load->view('allowance-list', $data, true);
+		$data['content'] = $this->load->view('payment-list', $data, true);
 		$this->load->view('templates/main', $data);
 	}
 	
-	public function new_claim()
-	{
-		//$data['value'] = $this->AllowanceModel->getDataWhere($id)->row();
-		$data['title'] = "New Allowance";
-		$data['footer'] = $this->footer();
-		$data['sidebar']= $this->sidebar();
-		$data['header']= $this->header();
-		$data['content'] = $this->load->view('claim-form', $data, true);
-		$this->load->view('templates/main', $data);
-	}
 
-	public function verify() 
+/*	public function verify() 
 	{
-		$res = $this->AllowanceModel->verifyLogin($this->input->post('username'), $this->input->post('password'));
+		$res = $this->UserModel->verifyLogin($this->input->post('username'), $this->input->post('password'));
 		if ($res !== NULL ) {
 			
 			$_SESSION['username'] = $this->input->post('username');
@@ -58,37 +50,18 @@ class Allowances extends CI_Controller
 		 	$this->session->set_flashdata('fail', 'Wrong username / password !');
 			redirect('/users/login/');
 		}
-	}
-
-	public function register($id='')
-	{
-		if ($id != '') {
-			$data['value'] = $this->UserModel->getDataWhere($id)->row();
-			$data['title'] = "Edit User";
-
-		} else {
-			$data['value'] = '';
-			$data['title'] = "Add New User";
-
-		}
-
-		$data['footer'] = $this->footer();
-		$data['sidebar']= $this->sidebar();
-		$data['header']= $this->header();
-		$data['content'] = $this->load->view('user-form', $data, true);
-		$this->load->view('templates/main', $data);
-	}
+	}*/
 
 	public function delete($id)
 	{
-		$del = $this->AllowanceModel->deleteData($id);
+		$del = $this->PaymentModel->deleteData($id);
 		if( $del ) {
 			$this->session->set_flashdata('success', 'Data user berhasil dihapus');
 		} else {
 			$this->session->set_flashdata('fail', 'Kesalahan penghapusan data terjadi.');
 		}
 
-		redirect('/users');
+		redirect('/payments');
 
 	}
 
@@ -107,10 +80,10 @@ class Allowances extends CI_Controller
 		
 		}
 
-		$checkOtherUsername = $this->AllowanceModel->checkOtherUsername($this->input->post('username'), $id);
+		$checkOtherUsername = $this->UserModel->checkOtherUsername($this->input->post('username'), $id);
 
 		if ($checkOtherUsername->row() == NULL) {
-			$query = $this->AllowanceModel->updateData($data, $id);
+			$query = $this->UserModel->updateData($data, $id);
 			if($query){
 				$this->session->set_flashdata('success', 'Update Profile Success!');
 				redirect('/users/profile/'.$id);
@@ -144,38 +117,33 @@ class Allowances extends CI_Controller
 	{
 	
 		$id = $this->input->post('id');
-		$data = array(
-					'allowance_name' => $this->input->post('allowance_name'),
-				);
 
-		$res = $this->AllowanceModel->isAllowanceTaken($this->input->post('allowance_name'));
-		if ($res == NULL) {
+		// $res = $this->PositionModel->isPositionTaken($this->input->post('position_name'));
+		// if ($res == NULL) {
+		$data['payment_type'] = $this->input->post('payment_type');
+
+		if(is_numeric($id))	 {
 			
-			if(is_numeric($id))	 {
-			
-				$runQuery = $this->AllowanceModel->updateData($data, $id);
-			} else {
-				$runQuery = $this->AllowanceModel->insertData($data);
-			}
-			
-			if($runQuery){
-				$this->session->set_flashdata('success', 'User berhasil ditambahkan');
-			} else {
-				$this->session->set_flashdata('fail', 'Kesalahan penyimpanan terjadi.');
-			}
-			
+			$runQuery = $this->PaymentModel->updateData($data, $id);
+
+					// if($runQuery){
+					// 	$this->session->set_flashdata('success', 'Position has been added');
+					// } else {
+					// 	$this->session->set_flashdata('fail', 'Kesalahan penyimpanan terjadi.');
+					// }
 		} else {
-		 	$this->session->set_flashdata('usernameTaken', 'Allowance already exist!');
+		 	$runQuery = $this->PaymentModel->insertData($data);
+			
 		}
 
-		redirect('/allowances/');
+		redirect('/payments/');
 
 	}
 
 	public function getData()
 	{
 		$result = array();
-	    $query = $this->AllowanceModel->getAllData()->result_array();
+	    $query = $this->UserModel->getAllData()->result_array();
 			 $i = 1;
     	 foreach ($query as $row) {
 
@@ -208,34 +176,6 @@ class Allowances extends CI_Controller
 
 	   //  var_dump(json_encode($root));
     	return print json_encode($root);
-	}
-
-	public function getRole()
-	{
-		$result = array();
-	    $query = $this->RoleModel->getAllData()->result_array();
-		$i = 1;
-
-		foreach ($query as $row) {
-		    $result[] = array(
-	     					"no" => $i++,
-	     					"recid" => $row['role_id'],
-	     					"name" => $row['name'],
-	     					"display_name" => $row['display_name'],
-	     					"access_lvl" => $row['access_lvl'],
-	     					"object_lvl" => $row['object_lvl'],
-	     				);
-		}
-	     $root['records'] = $result;
-
-	   //  var_dump(json_encode($root));
-    	return print json_encode($root);
-	}
-
-	public function getDataEdit($id) 
-	{
-		$query = $this->AllowanceModel->getDataWhere($id)->row();
-		return print json_encode($query);
 	}
 
 	public function sidebar()

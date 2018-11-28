@@ -52,8 +52,8 @@
                                     <td><?php echo $i; ?></td>
                                     <td><?php echo $value->employee_name; ?></td>
                                     <td><?php echo $value->position_name; ?></td>
-                                    <td><?php echo date("F j, Y", strtotime($value->leave_date_start)); ?></td>
-                                    <td><?php echo date("F j, Y", strtotime($value->leave_date_end)); ?></td>
+                                    <td><?php echo $value->leave_date_start; ?></td>
+                                    <td><?php echo $value->leave_date_end; ?></td>
                                     <td><span class="salary"><?php 
                                                                     if($value->leave_status == '1') {
                                                                         echo "<span style='color: green;'> Approved </span>"; 
@@ -117,13 +117,13 @@
                     <div class="form-group row">
                         <label for="position_name" class="col-sm-3 text-right control-label col-form-label">Leave Start</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="detail_leave_start" name="position_name" disabled="disabled">
+                            <input type="text" class="form-control" id="detail_leave_start" name="leave_date_start" disabled="disabled">
                         </div>
                     </div> 
                     <div class="form-group row">
                         <label for="position_name" class="col-sm-3 text-right control-label col-form-label">Leave End</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="detail_leave_end" name="position_name" disabled="disabled">
+                            <input type="text" class="form-control" id="detail_leave_end" name="leave_date_end" disabled="disabled">
                         </div>
                     </div> 
                     <div class="form-group row">

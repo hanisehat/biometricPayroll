@@ -6,7 +6,7 @@ class UserModel extends CI_Model
 	public function getAllData()
 	{
 		$allData = $this->db->get('users');
-		return $allData;
+		return $allData->result();
 	}
 
 	public function insertData($data)

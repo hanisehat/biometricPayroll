@@ -17,6 +17,9 @@ class Users extends CI_Controller
 	public function index()
 	{
 		$this->authent->checkLogin();
+		
+		$data['title'] = "User List";
+		$data['joined_values'] = $this->UserModel->getAllData();
 
 		$data['title'] = "User List";
 		$data['footer'] = $this->footer();
@@ -72,6 +75,16 @@ class Users extends CI_Controller
 			redirect('/users/login/');
 		}
 	}
+	
+	public function update_password()
+	{	
+		$data['password'] = sha1($this->input->post('password'));
+		$id = $this->input->post('id');
+		
+		$command = $this->UserModel->updateData($data, $id);
+
+		redirect('/users/new_user/'.$id);
+	}
 
 	public function new_user($id='')
 	{
@@ -104,6 +117,41 @@ class Users extends CI_Controller
 		}
 
 		redirect('/users');
+
+	}
+	
+	public function update_user($id='')
+	{	
+    
+		$id = $this->input->post('id');
+
+		
+		$data['username'] = $this->input->post('username');
+		$data['name'] = $this->input->post('name');
+		$data['email'] = $this->input->post('email');
+		/*$data['password'] = $this->input->post('password');*/
+		$data['role'] = $this->input->post('role');
+		$data['status'] = $this->input->post('status');
+		
+		//if($this->)
+
+		if( is_numeric($id) ) {
+			
+			$message = 'update';
+			$command = $this->UserModel->updateData($data, $id);
+		} 
+		else {
+
+			$message = 'insert';
+			$command = $this->UserModel->insertData($data);
+		}
+
+		if($message == 'insert') {
+			//echo json_encode($message);
+			redirect('/users');
+		} else {
+			redirect('/users');
+		}
 
 	}
 

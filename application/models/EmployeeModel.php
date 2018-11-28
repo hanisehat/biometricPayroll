@@ -74,4 +74,3 @@ class EmployeeModel extends CI_Model
 	}
 
 }
-?>

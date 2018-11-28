@@ -19,7 +19,7 @@ class Positions extends CI_Controller
 	//	$this->authent->checkLogin();
 
 		$data['values'] = $this->PositionModel->getAllData();
-		$data['title'] = "Claim List";
+		$data['title'] = "Positions List";
 		$data['footer'] = $this->footer();
 		$data['sidebar']= $this->sidebar();
 		$data['header']= $this->header();

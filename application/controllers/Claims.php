@@ -7,27 +7,59 @@ class Claims extends CI_Controller
 	function __construct() 
 	{
 		parent::__construct();
-		
-		$this->authent->checkLogin();
+				
 		$this->load->model('ClaimModel');
+		//$this->load->library('Authent');
 		//$this->notifications->checkDraft();
 	}
 
 
 	public function index()
 	{
+		$this->authent->checkLogin();
+
 		$data['title'] = "Claim List";
+		$data['joined_values'] = $this->ClaimModel->getAllData();
 		$data['footer'] = $this->footer();
 		$data['sidebar']= $this->sidebar();
 		$data['header']= $this->header();
 		$data['content'] = $this->load->view('claim-list', $data, true);
 		$this->load->view('templates/main', $data);
 	}
-	
-	public function new_claim()
+
+/*	public function verify() 
 	{
-		//$data['value'] = $this->UserModel->getDataWhere($id)->row();
-		$data['title'] = "New Claim";
+		$res = $this->EmployeeModel->verifyLogin($this->input->post('username'), $this->input->post('password'));
+		if ($res !== NULL ) {
+			
+			$_SESSION['username'] = $this->input->post('username');
+			$_SESSION['name'] = $res->employee_name;
+			$_SESSION['position'] = $res->position_name;
+			$_SESSION['priority'] = $res->position_priority;
+			$_SESSION['user_id'] = $res->employee_id;
+			
+			redirect('/');
+		}
+		 else {
+		 	session_start();
+		 	$this->session->set_flashdata('fail', 'Wrong username / password !');
+			redirect('/users/login/');
+		}
+	}*/
+
+	public function claim_form($id='')
+	{
+		
+		if ($id != '') {
+			$data['value'] = $this->ClaimModel->getDataWhere($id)->row();
+			$data['title'] = "Edit Claim";
+
+		} else {
+			$data['value'] = '';
+			$data['title'] = "Add New Claim";
+
+		}
+		
 		$data['footer'] = $this->footer();
 		$data['sidebar']= $this->sidebar();
 		$data['header']= $this->header();
@@ -35,97 +67,72 @@ class Claims extends CI_Controller
 		$this->load->view('templates/main', $data);
 	}
 
-	public function verify() 
-	{
-		$res = $this->UserModel->verifyLogin($this->input->post('username'), $this->input->post('password'));
-		if ($res !== NULL ) {
-			
-			$_SESSION['username'] = $this->input->post('username');
-			$_SESSION['role'] = $res->role;
-			$_SESSION['user_id'] = $res->user_id;
-			if($res->role < 2 )
-			{
-				$_SESSION['avatar'] = "<img src='".base_url()."assets/images/boss.png' alt='Profile Image' />";
-
-			} else {
-				$_SESSION['avatar'] = "<img src='".base_url()."assets/images/admin.png' alt='Profile Image' />";
-			}
-			
-			redirect('/');
-		}
-		 else {
-		 	$this->session->set_flashdata('fail', 'Wrong username / password !');
-			redirect('/users/login/');
-		}
-	}
-
-	public function register($id='')
-	{
-		if ($id != '') {
-			$data['value'] = $this->UserModel->getDataWhere($id)->row();
-			$data['title'] = "Edit User";
-
-		} else {
-			$data['value'] = '';
-			$data['title'] = "Add New User";
-
-		}
-
-		$data['footer'] = $this->footer();
-		$data['sidebar']= $this->sidebar();
-		$data['header']= $this->header();
-		$data['content'] = $this->load->view('user-form', $data, true);
-		$this->load->view('templates/main', $data);
-	}
-
 	public function delete($id)
 	{
-		$del = $this->UserModel->deleteData($id);
+		$del = $this->ClaimModel->deleteData($id);
 		if( $del ) {
 			$this->session->set_flashdata('success', 'Data user berhasil dihapus');
 		} else {
 			$this->session->set_flashdata('fail', 'Kesalahan penghapusan data terjadi.');
 		}
 
-		redirect('/users');
-
+		redirect('/claims');
 	}
 
-	public function update($id)
-	{	
-		$data = array(
-					'name' => $this->input->post('name'),
-					'email' => $this->input->post('email'),
-					'username' => $this->input->post('username'),
-					'role' => $this->input->post('role'),
-					'status' => $this->input->post('status'),
-				);
+	
 
-		if($this->input->post('password') != ''){
-			$data['password'] = sha1($this->input->post('password'));
+	public function update_claim($id='')
+	{	
+		$config['upload_path']          = './files/claim_pictures';
+        $config['allowed_types']        = 'jpg|jpeg|png|PNG|JPG|JPEG';
+        $config['max_size']             = 5000;
+        $config['encrypt_name']         = true;
+
+        $this->load->library('upload', $config);
+    
+		$id = $this->input->post('id');
+
+		$claim_pictures = $_FILES["c_picture"]["name"];
+
+		$data['claim_user'] = $this->input->post('c_name');
+		$data['claim_title'] = $this->input->post('c_title');
+		$data['claim_status'] = $this->input->post('c_status');
+		$data['claim_date'] = $this->input->post('c_date');
+		$data['claim_description'] = $this->input->post('desc');
 		
+		//if($this->)
+
+		if( is_numeric($id) ) {
+			
+			if (!empty($c_picture)) {
+				$this->upload->do_upload('c_picture');
+    			$image_upload = $this->upload->data();
+
+    			$data['claim_picture'] = 'files/claim_pictures/'.$this->upload->file_name;
+			}
+			
+			$message = 'update';
+			$command = $this->ClaimModel->updateData($data, $id);
+		} 
+		else {
+			 	if (!empty($c_picture)) {
+					$this->upload->do_upload('c_picture');
+	    			$image_upload = $this->upload->data();
+
+	    			$data['claim_picture'] = 'files/claim_pictures/'.$this->upload->file_name;
+				}
+
+				$message = 'insert';
+			
+			$command = $this->ClaimModel->insertData($data);
 		}
 
-		$checkOtherUsername = $this->UserModel->checkOtherUsername($this->input->post('username'), $id);
-
-		if ($checkOtherUsername->row() == NULL) {
-			$query = $this->UserModel->updateData($data, $id);
-			if($query){
-				$this->session->set_flashdata('success', 'Update Profile Success!');
-				redirect('/users/profile/'.$id);
-
-			} else {
-				$this->session->set_flashdata('usernameTaken', 'Kesalahan penyimpanan terjadi!');
-				redirect('/users/profile/'.$id);
-
-			}
-
+		if($message == 'insert') {
+			//echo json_encode($message);
+			redirect('/claims');
 		} else {
-
-			$this->session->set_flashdata('usernameTaken', 'Username already taken!');
-			redirect('/users/profile/'.$id);
-		}	
-			
+			redirect('/claims/claim_form/'.$id);
+		}
 
 	}
 
@@ -141,33 +148,51 @@ class Claims extends CI_Controller
 
 	public function add()
 	{
-	
+		$config['upload_path']          = './files/claim_pictures/';
+        $config['allowed_types']        = 'jpg|jpeg|png|PNG|JPG|JPEG';
+        $config['max_size']             = 5000;
+
+        $this->load->library('upload', $config);
+    
+        $this->upload->do_upload('c_picture');
+        $image_upload = $this->upload->data();
+
+		$c_picture = $_FILES["c_picture"]["name"];
+		
 		$id = $this->input->post('id');
 
-		$res = $this->UserModel->isUsernameTaken($this->input->post('username'));
-		if ($res == NULL) {
-			
+		if( is_numeric($id) && empty($c_picture)) {
+
 			$data = array(
-					'name' => $this->input->post('name'),
-					'email' => $this->input->post('email'),
-					'password' => sha1($this->input->post('password')),
-					'username' => $this->input->post('username'),
-					'role' => $this->input->post('role'),
-					'status' => $this->input->post('status'),
-				);
+				'claim_user' => $this->input->post('c_name'),
+				'claim_title' => $this->input->post('c_title'),
+				'claim_status' => $this->input->post('c_status'),
+				'claim_date' => $this->input->post('c_date'),
+				'claim_description' => $this->input->post('desc')
+			);	
+		
+		} 
+		else {
 
-					$runQuery = $this->UserModel->insertData($data);
-
-					if($runQuery){
-						$this->session->set_flashdata('success', 'User berhasil ditambahkan');
-					} else {
-						$this->session->set_flashdata('fail', 'Kesalahan penyimpanan terjadi.');
-					}
-		} else {
-		 	$this->session->set_flashdata('usernameTaken', 'Username already taken!');
-			redirect('/users/register/');
+			$data = array(
+				'claim_user' => $this->input->post('c_name'),
+				'claim_title' => $this->input->post('c_title'),
+				'claim_status' => $this->input->post('c_status'),
+				'claim_date' => $this->input->post('c_date'),
+				'claim_picture' => $config['upload_path'].$c_picture,
+				'claim_description' => $this->input->post('desc')
+			);
 		}
 
+		if (is_numeric($id)) {
+			$query = $this->ClaimModel->updateData($id, $data);
+		} else {
+			$query = $this->ClaimModel->insertData($data);	
+		}
+		
+		if($query) {
+			redirect('/claims');
+		}
 	}
 
 	public function getData()
@@ -254,3 +279,4 @@ class Claims extends CI_Controller
 		return $this->load->view('templates/footer', $data, true);
 	}
 }
+?>

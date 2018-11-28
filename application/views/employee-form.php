@@ -87,6 +87,12 @@
                                     <input type="text" class="form-control" id="datepicker-autoclose" placeholder="mm/dd/yyyy" name="birth_date" value="<?php if(is_numeric($this->uri->segment(3))) { echo $value->employee_birth; } ?>">
                                 </div>
                             </div>
+							<div class="form-group row">
+                                <label for="fname" class="col-sm-3 text-right control-label col-form-label">Start Date</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="datepicker-autoclose2" placeholder="mm/dd/yyyy" name="start_date" value="<?php if(is_numeric($this->uri->segment(3))) { echo $value->employee_start; } ?>">
+                                </div>
+                            </div>
                             <div class="form-group row">
                                 <label for="lname" class="col-sm-3 text-right control-label col-form-label">Picture</label>
                                 <div class="col-sm-9">
@@ -208,6 +214,9 @@
         autoclose: true,
         todayHighlight: true,
     });
-
+	jQuery('#datepicker-autoclose2').datepicker({
+        autoclose: true,
+        todayHighlight: true,
+    });
 
 </script>
