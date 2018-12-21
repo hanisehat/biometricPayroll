@@ -120,6 +120,7 @@ class Payments extends CI_Controller
 
 		// $res = $this->PositionModel->isPositionTaken($this->input->post('position_name'));
 		// if ($res == NULL) {
+		$data['payment_name'] = $this->input->post('payment_name');
 		$data['payment_type'] = $this->input->post('payment_type');
 
 		if(is_numeric($id))	 {
@@ -187,7 +188,7 @@ class Payments extends CI_Controller
 	public function header()
 	{
 		$data = array();
-		return $this->load->view('templates/header', $data, true);
+		return $this->load->view('templates/header_admin', $data, true);
 	}
 
 	public function footer()

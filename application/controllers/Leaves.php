@@ -19,7 +19,7 @@ class Leaves extends CI_Controller
 	{
 		$this->authent->checkLogin();
 
-		$data['title'] = "Leaves List";
+		$data['title'] = "Leave List";
 		$data['joined_values'] = $this->LeaveModel->getAllData();
 		$data['footer'] = $this->footer();
 		$data['sidebar']= $this->sidebar();
@@ -98,7 +98,7 @@ class Leaves extends CI_Controller
 	public function header()
 	{
 		$data = array();
-		return $this->load->view('templates/header', $data, true);
+		return $this->load->view('templates/header_admin', $data, true);
 	}
 
 	public function footer()

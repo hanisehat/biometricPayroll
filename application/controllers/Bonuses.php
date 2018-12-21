@@ -9,6 +9,7 @@ class Bonuses extends CI_Controller
 		parent::__construct();
 
 		$this->load->model('BonusModel');
+		$this->load->model('EmployeeModel');
 		//$this->load->library('Authent');
 		//$this->notifications->checkDraft();
 	}
@@ -19,6 +20,7 @@ class Bonuses extends CI_Controller
 	//	$this->authent->checkLogin();
 
 		$data['values'] = $this->BonusModel->getAllData();
+		$data['employees'] = $this->EmployeeModel->getAllData();
 		$data['title'] = "Bonus List";
 		$data['footer'] = $this->footer();
 		$data['sidebar']= $this->sidebar();
@@ -37,7 +39,7 @@ class Bonuses extends CI_Controller
 			$this->session->set_flashdata('fail', 'Kesalahan penghapusan data terjadi.');
 		}
 
-		redirect('/payments');
+		redirect('/bonuses');
 
 	}
 
@@ -57,9 +59,10 @@ class Bonuses extends CI_Controller
 	
 		$id = $this->input->post('id');
 
-		
+		$data['bonus_employee'] = $this->input->post('bonus_name');
 		$data['bonus_type'] = $this->input->post('bonus_type');
 		$data['bonus_amount'] = $this->input->post('bonus_amount');
+		//$data['bonus_timestamp'] = $this->input->post('')
 
 		if(is_numeric($id))	 {
 			
@@ -88,7 +91,7 @@ class Bonuses extends CI_Controller
 	public function header()
 	{
 		$data = array();
-		return $this->load->view('templates/header', $data, true);
+		return $this->load->view('templates/header_admin', $data, true);
 	}
 
 	public function footer()

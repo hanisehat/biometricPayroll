@@ -38,6 +38,27 @@ class Users extends CI_Controller
 		$data['title'] = "Login";
 		$this->load->view('login', $data);
 	}
+	
+	public function admin_login()
+	{
+		if(isset($_SESSION['username'])) {
+			redirect('/');
+		}
+
+		$data['title'] = "Login Admin";
+		$this->load->view('admin-login', $data);
+	}
+	
+	public function user_detail($id=''){
+		$data['value'] = $this->UserModel->getDataWhere($id)->row();
+		$data['title'] = "Detail User";
+		
+		$data['footer'] = $this->footer();
+		$data['sidebar']= $this->sidebar();
+		$data['header']= $this->header();
+		$data['content'] = $this->load->view('user-detail', $data, true);
+		$this->load->view('templates/main', $data);
+	}
 
 	public function logout()
 	{
@@ -60,7 +81,7 @@ class Users extends CI_Controller
 
 	public function verify() 
 	{
-		//var_dump($_POST); die();
+		
 		$res = $this->UserModel->verifyLogin($this->input->post('username'), $this->input->post('password'));
 		if ($res !== NULL ) {
 			
@@ -75,6 +96,7 @@ class Users extends CI_Controller
 			redirect('/users/login/');
 		}
 	}
+
 	
 	public function update_password()
 	{	
@@ -129,7 +151,6 @@ class Users extends CI_Controller
 		$data['username'] = $this->input->post('username');
 		$data['name'] = $this->input->post('name');
 		$data['email'] = $this->input->post('email');
-		/*$data['password'] = $this->input->post('password');*/
 		$data['role'] = $this->input->post('role');
 		$data['status'] = $this->input->post('status');
 		
@@ -309,7 +330,7 @@ class Users extends CI_Controller
 	public function header()
 	{
 		$data = array();
-		return $this->load->view('templates/header', $data, true);
+		return $this->load->view('templates/header_admin', $data, true);
 	}
 
 	public function footer()

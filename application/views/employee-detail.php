@@ -35,7 +35,7 @@
         <!-- Column -->
         <div class="col-md-8">
                 <div class="card">
-                    <?php  echo form_open_multipart(base_url().'employees/employee_detail', array('id'=>'form-price', 'class'=>'form-horizontal', 'name'=>'form_employee', 'method'=>'post')) ?>
+                    <?php  echo form_open_multipart(base_url().'employees_emp/employee_detail', array('id'=>'form-price', 'class'=>'form-horizontal', 'name'=>'form_employee', 'method'=>'post')) ?>
                         <input type="hidden" name="id" value="<?php echo $this->uri->segment(3); ?>">
                         <div class="card-body">
                             <h4 class="card-title">Personal Info</h4>

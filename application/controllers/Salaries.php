@@ -90,6 +90,7 @@ class Salaries extends CI_Controller
 		$id = $this->input->post('id');
 
 		$data['salary_name'] = $this->input->post('salary_name');
+		$data['salary_duration'] = $this->input->post('salary_duration');
 		//$data['salary_amount'] = $this->input->post('salary_amount');
 
 		if(is_numeric($id))	 {
@@ -183,7 +184,7 @@ class Salaries extends CI_Controller
 	public function header()
 	{
 		$data = array();
-		return $this->load->view('templates/header', $data, true);
+		return $this->load->view('templates/header_admin', $data, true);
 	}
 
 	public function footer()

@@ -5,8 +5,13 @@ class PaymentModel extends CI_Model
 {
 	public function getAllData()
 	{
-		$allData = $this->db->get('payments');
-		return $allData->result();
+		
+		$this->db->select('*');
+		$this->db->from('payments');
+		$this->db->join('employees', 'payments.payment_name = employees.employee_id');
+		$query = $this->db->get();
+		
+		return $query->result();
 	}
 
 	public function insertData($data)

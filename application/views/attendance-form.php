@@ -83,9 +83,9 @@
 <script src="<?php echo base_url(); ?>assets/assets/libs/bootstrap-datetimepicker/dist/js/bootstrap-datetimepicker.min.js"></script>
 <script>
 
-    /****************************************
+    /***************************************
      *       Basic Table                   *
-     ****************************************/
+     ***************************************/
     $('#zero_config').DataTable();
     $(".select2").select2();
 	

@@ -88,6 +88,15 @@
                                 </div>
                             </div>
 							<div class="form-group row">
+                                <label for="cono1" class="col-sm-3 text-right control-label col-form-label">Gender</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control custom-select" style="width: 100%; height:36px;" name="emp_gender">
+                                        <option >Women</option>
+                                        <option >Man</option>
+                                    </select>
+                                </div>
+                            </div>
+							<div class="form-group row">
                                 <label for="fname" class="col-sm-3 text-right control-label col-form-label">Start Date</label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" id="datepicker-autoclose2" placeholder="mm/dd/yyyy" name="start_date" value="<?php if(is_numeric($this->uri->segment(3))) { echo $value->employee_start; } ?>">
@@ -134,6 +143,15 @@
                                             
                                     </select>
 
+                                </div>
+                            </div>
+							<div class="form-group row">
+                                <label for="cono1" class="col-sm-3 text-right control-label col-form-label">Duration of Work</label>
+                                <div class="col-sm-3">
+                                    <select class="form-control custom-select" style="width: 100%; height:36px;" name="emp_duration">
+                                        <option>Full Time</option>
+                                        <option>Part Time</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group row">

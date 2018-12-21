@@ -37,11 +37,14 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+								<th>Employee ID</th>
                                 <th>Name</th>
+								<th>Gender</th>
                                 <th>Position</th>
                                 <th>Birth</th>
                                 <th>Start date</th>
                                 <th>Salary</th>
+								<th>Duration of Work</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -51,11 +54,14 @@
                                 
                                 <tr>
                                     <td><?php echo $i; ?></td>
+									<td><?php echo $value->employee_id; ?></td>
                                     <td><?php echo $value->employee_name; ?></td>
+									<td><?php echo $value->employee_gender; ?></td>
                                     <td><?php echo $value->position_name; ?></td>
                                     <td><?php echo date("F j, Y", strtotime($value->employee_birth)); ?></td>
                                     <td><?php echo date("F j, Y", strtotime($value->employee_start)); ?></td>
                                     <td><span class="salary"><?php echo $value->employee_salary; ?></span></td>
+									<td><?php echo $value->employee_duration; ?></td>
                                     <td><span class="salary"><?php 
 																if($value->employee_status == '1') echo "<span style='color: green;'> Active </span>"; 
 																else {echo "<span style='color: red;'> Not Active </span>"; }
@@ -112,30 +118,6 @@
     $('#zero_config').DataTable();
     $('.salary').currency({ region: "IDR", decimals: 0, thousands: "." }); 
 
-
-   
-	
-	// $(".activate_emp").click(function(id){
- //        if (confirm("Are you sure?")) {
-            
- //            $.post( "<?php echo base_url();?>employees/activation/1/"+id).done(function( data ) {
- //                window.location.reload();
- //            });
-
- //        }
- //        return false;
-	// });
-	
-	// $(".deactivate_emp").click(function(id){
- //        if (confirm("Are you sure?")) {
-            
- //            $.post( "<?php echo base_url();?>employees/activation/0/"+id).done(function( data ) {
- //                window.location.reload();
- //            });
-
- //        }
- //        return false;
-	// });
 
     function activate(id) {
         if (confirm("Are you sure?")) {

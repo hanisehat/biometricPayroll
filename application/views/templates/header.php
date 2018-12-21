@@ -118,7 +118,7 @@
                                         <div class="d-flex no-block align-items-center p-10">
                                             <span class="btn btn-danger btn-circle"><i class="fa fa-link"></i></span>
                                             <div class="m-l-10">
-                                                <h5 class="m-b-0">Luanch Admin</h5> 
+                                                <h5 class="m-b-0">Launch Admin</h5> 
                                                 <span class="mail-desc">Just see the my new admin!</span> 
                                             </div>
                                         </div>
@@ -138,7 +138,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="<?php echo base_url(); ?>assets/assets/images/users/1.jpg" alt="user" class="rounded-circle" width="31"></a>
                     <div class="dropdown-menu dropdown-menu-right user-dd animated">
-                        <a class="dropdown-item" href="<?php echo base_url('employees/employee_form/'.$this->session->user_id); ?>"><i class="ti-user m-r-5 m-l-5"></i> 
+                        <a class="dropdown-item" href="<?php echo base_url('employees_emp/employee_detail/'.$this->session->user_id); ?>"><i class="ti-user m-r-5 m-l-5"></i> 
 
                             My Profile
 

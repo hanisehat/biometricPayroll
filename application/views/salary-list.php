@@ -39,6 +39,7 @@
                                 <th>No</th>
                                 <th>Name</th>
 								<th>Salary</th>
+								<th>Duration of Work</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -49,6 +50,7 @@
                                     <td><?php echo $i; ?></td>
                                     <td><?php echo $value->employee_name; ?></td>
 									<td><span class="salary"><?php echo $value->employee_salary; ?></span></td>
+									<td><?php echo $value->employee_duration; ?></td>
 
                                     <td><span class="salary">
 										<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#Modal3" onclick="getValue('<?php echo $value->employee_id; ?>', '<?php echo $value->employee_name; ?>', '<?php echo $value->employee_salary; ?>')">Edit</button></span>
@@ -89,7 +91,7 @@
 					</div>
 					
 					<div class="form-group row">
-						<label for="fname" class="col-sm-3 text-right control-label col-form-label">Salary</label>
+						<label for="fname" class="col-sm-3 text-right control-label col-form-label">Salary Amount</label>
 	                    <div class="col-sm-9">
 	                        <input type="number" class="form-control" id="update_salary_amount" placeholder="Salary" name="employee_salary">
 	                    </div>
@@ -125,8 +127,6 @@
 	                        <input type="text" class="form-control" id="salary_name" placeholder="employee ID" name="salary_name">
 	                    </div>
 	                </div>
-					
-					
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

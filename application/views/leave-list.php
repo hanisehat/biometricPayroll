@@ -10,7 +10,6 @@
             <div class="ml-auto text-right">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                       <li class="breadcrumb-item"><a href="<?php echo base_url('leaves/leave_form/'.$this->session->user_id); ?>" type="button" class="btn btn-success">Request New Leave</button></a></li>
                     </ol>
                 </nav>
             </div>

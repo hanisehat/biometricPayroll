@@ -37,6 +37,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+								<th>Name</th>
                                 <th>Type of Payment</th>
                                 <th>Action</th>
                             </tr>
@@ -46,10 +47,11 @@
                                 
                                 <tr>
                                     <td><?php echo $i; ?></td>
+									<td><?php echo $value->employee_name; ?></td>
                                     <td><?php echo $value->payment_type; ?></td>
 
                                     <td><span class="salary">
-                                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#Modal2" onclick="getValue('<?php echo $value->payment_id; ?>', '<?php echo $value->payment_type; ?>')">Edit</button></span>
+                                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#Modal2" onclick="getValue('<?php echo $value->payment_id; ?>', '<?php echo $value->employee_name; ?>', '<?php echo $value->payment_type; ?>')">Edit</button></span>
                                         <button type="button" class="btn btn-danger delete" onclick="remover('<?php echo $value->payment_id; ?>')">Delete</button>
                                     </td>
                                 </tr>
@@ -80,6 +82,12 @@
             <div class="modal-body">
             	<form action="<?php echo base_url('payments/add'); ?>" method="post">
 	                <div class="form-group row">
+	                    <label for="payment_type" class="col-sm-3 text-right control-label col-form-label">Employee ID</label>
+	                    <div class="col-sm-9">
+	                        <input type="number" class="form-control" id="update_payment_name" placeholder="Employee ID" name="payment_name">
+	                    </div>
+	                </div>
+					<div class="form-group row">
 	                    <label for="payment_type" class="col-sm-3 text-right control-label col-form-label">Payment Type</label>
 	                    <div class="col-sm-9">
 	                        <input type="text" class="form-control" id="update_payment_type" placeholder="Payment Type" name="payment_type">
@@ -110,11 +118,22 @@
             <div class="modal-body">
             	<form action="<?php echo base_url('payments/add'); ?>" method="post">
 	                <div class="form-group row">
-	                    <label for="payment_type" class="col-sm-3 text-right control-label col-form-label">Payment Type</label>
+	                    <label for="payment_type" class="col-sm-3 text-right control-label col-form-label">Employee ID</label>
 	                    <div class="col-sm-9">
-	                        <input type="text" class="form-control" id="payment_type" placeholder="Payment Type" name="payment_type">
+	                        <input type="number" class="form-control" id="payment_name" placeholder="Employee ID" name="payment_name">
 	                    </div>
 	                </div>
+					<div class="form-group row">
+						<label for="cono1" class="col-sm-3 text-right control-label col-form-label">Payment Type</label>
+						<div class="col-sm-3">
+							<select class="form-control custom-select" style="width: 100%; height:36px;" name="payment_type">
+								<option >Cash</option>
+								<option >Paycheck</option>
+								<option >Direct Deposit</option>
+								<option >Payroll Cards</option>
+							</select>
+						</div>
+					</div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -149,8 +168,9 @@
 
     }
 
-    function getValue(id, data)
+    function getValue(id, data, number)
     {
+		$("#update_payment_name").val(number);
     	$("#update_payment_type").val(data);
     	$("#id_update_payment").val(id);
     	

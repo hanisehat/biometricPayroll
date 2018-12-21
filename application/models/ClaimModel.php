@@ -6,8 +6,12 @@ class ClaimModel extends CI_Model
 
 public function getAllData()
 	{
-		$allData = $this->db->get('claims');
-		return $allData->result();
+		$this->db->select('*');
+		$this->db->from('claims');
+		$this->db->join('employees', 'claims.claim_user = employees.employee_id');
+		$query = $this->db->get();
+
+		return $query->result();
 	}
 
 	public function insertData($data)
@@ -34,6 +38,17 @@ public function getAllData()
 		$value = $this->db->get_where('claims', array('claim_id' => $id));
 		return $value;
 	}
+	
+	// public function getDataWhere($id)
+	// {
+		// $this->db->select('*');
+		// $this->db->from('leaves');
+		// $this->db->where('leave_id', $id);
+		// $this->db->join('employees', 'leaves.leave_employee = employees.employee_id');
+		// $this->db->join('positions', 'employees.employee_position = positions.position_id');
+		// $value =$this->db->get()->row();
+		// return $value;
+	// }
 
 	public function isUsernameTaken($username)
 	{

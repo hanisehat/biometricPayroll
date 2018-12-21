@@ -9,6 +9,7 @@ class Claims extends CI_Controller
 		parent::__construct();
 				
 		$this->load->model('ClaimModel');
+		$this->load->model('EmployeeModel');
 		//$this->load->library('Authent');
 		//$this->notifications->checkDraft();
 	}
@@ -20,12 +21,35 @@ class Claims extends CI_Controller
 
 		$data['title'] = "Claim List";
 		$data['joined_values'] = $this->ClaimModel->getAllData();
+		$data['employees'] = $this->EmployeeModel->getAllData();
 		$data['footer'] = $this->footer();
 		$data['sidebar']= $this->sidebar();
 		$data['header']= $this->header();
 		$data['content'] = $this->load->view('claim-list', $data, true);
 		$this->load->view('templates/main', $data);
 	}
+	
+	public function get_detail($id)
+	{
+		$data = $this->ClaimModel->getDataWhere($id);
+		echo json_encode($data);
+	}
+	
+	public function claim_approval()
+	{	
+
+		$data['claim_reply_message'] = $this->input->post('rejection_reason');
+		$data['claim_status'] = $this->input->post('claim_status');
+		$id = $this->input->post('id');
+		//var_dump($id); die();
+		$query = $this->ClaimModel->updateData($id, $data);
+
+		if($query) {
+			redirect('/claims');	
+		}
+		
+	}
+
 
 /*	public function verify() 
 	{
@@ -46,6 +70,18 @@ class Claims extends CI_Controller
 			redirect('/users/login/');
 		}
 	}*/
+	
+	public function claim_detail($id=''){
+		$data['value'] = $this->ClaimModel->getDataWhere($id)->row();
+		$data['title'] = "Claim Info";
+		
+		$data['employees'] = $this->EmployeeModel->getAllData();
+		$data['footer'] = $this->footer();
+		$data['sidebar']= $this->sidebar();
+		$data['header']= $this->header();
+		$data['content'] = $this->load->view('claim-detail', $data, true);
+		$this->load->view('templates/main', $data);
+	}
 
 	public function claim_form($id='')
 	{
@@ -270,7 +306,7 @@ class Claims extends CI_Controller
 	public function header()
 	{
 		$data = array();
-		return $this->load->view('templates/header', $data, true);
+		return $this->load->view('templates/header_admin', $data, true);
 	}
 
 	public function footer()

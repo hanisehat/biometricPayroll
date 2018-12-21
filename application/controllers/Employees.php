@@ -53,7 +53,7 @@ class Employees extends CI_Controller
 			$_SESSION['priority'] = $res->position_priority;
 			$_SESSION['user_id'] = $res->employee_id;
 			
-			redirect('/');
+			redirect('/dashboard_emp');
 		}
 		 else {
 		 	session_start();
@@ -84,6 +84,16 @@ class Employees extends CI_Controller
 		$data['header']= $this->header();
 		$data['content'] = $this->load->view('employee-form', $data, true);
 		$this->load->view('templates/main', $data);
+	}
+	
+	public function employee_login()
+	{
+		if(isset($_SESSION['username'])) {
+			redirect('/');
+		}
+
+		$data['title'] = "Login Employee";
+		$this->load->view('employee-login', $data);
 	}
 	
 	public function employee_detail($id=''){
@@ -155,6 +165,8 @@ class Employees extends CI_Controller
 		$data['employee_salary'] = $this->input->post('emp_salary');
 		$data['employee_status'] = $this->input->post('emp_status');
 		$data['employee_phone'] = $this->input->post('emp_phone');
+		$data['employee_gender'] = $this->input->post('emp_gender');
+		$data['employee_duration'] = $this->input->post('emp_duration');
 		$data['employee_address'] = $this->input->post('emp_address');
 		$data['employee_birth'] = $this->input->post('birth_date');
 		$data['employee_start'] = $this->input->post('start_date');
@@ -335,7 +347,7 @@ class Employees extends CI_Controller
 	public function header()
 	{
 		$data = array();
-		return $this->load->view('templates/header', $data, true);
+		return $this->load->view('templates/header_admin', $data, true);
 	}
 
 	public function footer()

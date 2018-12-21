@@ -72,54 +72,6 @@
  	</div>
 </div>
 
-
- <!-- Modal -->
-<div class="modal fade" id="Modal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Report Detail</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="<?php echo base_url('report/report_view'); ?>" method="post">
-                    
-                    <div class="form-group row">
-                        <label for="position_name" class="col-sm-3 text-right control-label col-form-label">Employee Name</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="detail_employee_name" name="employee_name" disabled="disabled">
-                        </div>
-                    </div> 
-					<div class="form-group row">
-                        <label for="position_name" class="col-sm-3 text-right control-label col-form-label">Start Date</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="detail_employee_start" name="employee_start" disabled="disabled">
-                        </div>
-                    </div>
-					<div class="form-group row">
-                        <label for="position_name" class="col-sm-3 text-right control-label col-form-label">Employee Salary</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="detail_employee_salary" name="employee_salary" disabled="disabled">
-                        </div>
-                    </div> 
-                    
-
-                    <input type="hidden" id="report_id" name="id" value="">
-               
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                
-            </div>
-             </form>
-        </div>
-    </div>
-</div>
-
-
-
 <script src="<?php echo base_url(); ?>assets/assets/extra-libs/DataTables/datatables.min.js"></script>
 
 

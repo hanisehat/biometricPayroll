@@ -65,6 +65,7 @@
                             </div>
 
                             <input type="hidden" name="employee_id" value="<?php echo $this->uri->segment(3); ?>">
+							<input type="hidden" name="leave_status" value="<?php echo $this->uri->segment(3); ?>">
                            
                         </div>
                         <div class="border-top">

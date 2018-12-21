@@ -5,8 +5,12 @@ class BonusModel extends CI_Model
 {
 	public function getAllData()
 	{
-		$allData = $this->db->get('bonuses');
-		return $allData->result();
+		$this->db->select('*');
+		$this->db->from('bonuses');
+		$this->db->join('employees', 'bonuses.bonus_employee = employees.employee_id');
+		$query = $this->db->get();
+		
+		return $query->result();
 	}
 
 	public function insertData($data)

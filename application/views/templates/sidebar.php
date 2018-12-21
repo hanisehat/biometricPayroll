@@ -20,9 +20,19 @@
 
                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url('employees'); ?>" aria-expanded="false"><i class="mdi mdi-account-multiple"></i><span class="hide-menu">Employees</span></a></li>
 				
-				<li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url('attendances'); ?>" aria-expanded="false"><i class="fa fa-calendar-alt"></i><span class="hide-menu">Attendance</span></a></li>
+				<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fa fa-calendar-alt"></i><span class="hide-menu">Attendance</span></a>
+						<ul aria-expanded="false" class="collapse  first-level">
+                        <li class="sidebar-item"><a href="<?php echo base_url('full_attendances'); ?>" class="sidebar-link"><i class="far fa-calendar-alt"></i><span class="hide-menu">	Full Time	</span></a></li>
+                        <li class="sidebar-item"><a href="<?php echo base_url('part_attendances'); ?>" class="sidebar-link"><i class="far fa-calendar-alt"></i><span class="hide-menu">	Part Time	</span></a></li>
+                    </ul>
+				</li>
 				
-				<li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url('salaries'); ?>" aria-expanded="false"><i class='fas fa-donate'></i><span class="hide-menu">Salary</span></a></li>
+				<li class="sidebar-item"> <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class='fas fa-donate'></i><span class="hide-menu">Salary</span></a>
+						<ul aria-expanded="false" class="collapse  first-level">
+                        <li class="sidebar-item"><a href="<?php echo base_url('salaries_full'); ?>" class="sidebar-link"><i class="fas fa-hand-holding-usd"></i><span class="hide-menu">	Full Time	</span></a></li>
+                        <li class="sidebar-item"><a href="<?php echo base_url('salaries_part'); ?>" class="sidebar-link"><i class="fas fa-hand-holding-usd"></i><span class="hide-menu">	Part Time	</span></a></li>
+                    </ul>
+				</li>
 				
 				<li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url('bonuses'); ?>" aria-expanded="false"><i class="fa fa-plus"></i><span class="hide-menu">Bonus</span></a></li>
 				
@@ -35,6 +45,7 @@
                         <li class="sidebar-item"><a href="<?php echo base_url('users'); ?>" class="sidebar-link"><i class="fas fa-key"></i><span class="hide-menu"> User Admin </span></a></li>
                     </ul>
                 </li>
+			
             </ul>
         </nav>
         <!-- End Sidebar navigation -->

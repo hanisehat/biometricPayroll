@@ -37,8 +37,10 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+								<th>Name</th>
                                 <th>Type of Bonus</th>
 								<th>Amount of Bonus</th>
+								<th>Date</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -47,11 +49,13 @@
                                 
                                 <tr>
                                     <td><?php echo $i; ?></td>
+									<td><?php echo $value->employee_name; ?></td>
                                     <td><?php echo $value->bonus_type; ?></td>
 									<td><span class="bonus"><?php echo $value->bonus_amount; ?></span></td>
+									<td><?php echo $value->bonus_timestamp; ?></td>
 
                                     <td><span class="salary">
-                                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#Modal2" onclick="getValue('<?php echo $value->bonus_id; ?>', '<?php echo $value->bonus_type; ?>', '<?php echo $value->bonus_amount; ?>')">Edit</button></span>
+                                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#Modal2" onclick="getValue('<?php echo $value->bonus_id; ?>', '<?php echo $value->employee_name; ?>', '<?php echo $value->bonus_type; ?>', '<?php echo $value->bonus_amount; ?>')">Edit</button></span>
                                         <button type="button" class="btn btn-danger delete" onclick="remover('<?php echo $value->bonus_id; ?>')">Delete</button>
                                     </td>
                                 </tr>
@@ -81,6 +85,13 @@
             </div>
             <div class="modal-body">
             	<form action="<?php echo base_url('bonuses/add'); ?>" method="post">
+				
+					<div class="form-group row">
+	                    <label for="bonus_amount" class="col-sm-3 text-right control-label col-form-label">Employee ID</label>
+	                    <div class="col-sm-9">
+	                        <input type="number" class="form-control" id="update_bonus_name" name="bonus_name" value="<?php if(is_numeric($this->uri->segment(3))) { echo $value->bonus_employee; } ?>" >
+	                    </div>
+	                </div>
 	                <div class="form-group row">
 	                    <label for="bonus_type" class="col-sm-3 text-right control-label col-form-label">Type of Bonus</label>
 	                    <div class="col-sm-9">
@@ -118,7 +129,14 @@
             </div>
             <div class="modal-body">
             	<form action="<?php echo base_url('bonuses/add'); ?>" method="post">
-	                <div class="form-group row">
+	                
+					<div class="form-group row">
+	                    <label for="bonus_type" class="col-sm-3 text-right control-label col-form-label">Employee ID</label>
+	                    <div class="col-sm-9">
+	                        <input type="number" class="form-control" id="bonus_name" placeholder="Employee ID" name="bonus_name">
+	                    </div>
+	                </div>
+					<div class="form-group row">
 	                    <label for="bonus_type" class="col-sm-3 text-right control-label col-form-label">Type of Bonus</label>
 	                    <div class="col-sm-9">
 	                        <input type="text" class="form-control" id="bonus_type" placeholder="Type of Bonus" name="bonus_type">
@@ -166,9 +184,10 @@
 
     }
 
-    function getValue(id, data, number)
+    function getValue(id, name, data, number)
     {
     	$("#update_bonus_type").val(data);
+		$("#update_bonus_name").val(name);
 		$("#update_bonus_amount").val(number);
     	$("#id_update_bonus").val(id);
     	
